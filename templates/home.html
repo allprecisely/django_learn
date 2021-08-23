@@ -1,8 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-<body>
-    <h1>Here a home page</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Hello {{ user }}</h1>
+
+<p>Here is a home page :)</p>
+
+{{ html|safe }}
+
+<p>Now: {{ date }}, and here a list:</p>
+<ul>
+{% for line in collection %}
+    <li>{{ line }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
