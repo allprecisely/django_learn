@@ -7,3 +7,5 @@ what are forms, and how are they connected
 
 Stopped at 2:14:10 raw html form
 Can I create url from template without hardcode? - yes:)
+
+Stopped at 3:07:35 ListView
