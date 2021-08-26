@@ -1,0 +1,14 @@
+{% extends 'base_article.html' %}
+
+{% block content %}
+{% for obj in objects %}
+<h1><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h1>
+<h4>{{ obj.summary }}</h4>
+<h5>{{ obj.author }}</h5>
+<h5>{{ obj.time }}</h5>
+{% if not forloop.last %}=============={% endif %}
+{% endfor %}
+<form method="Post"> {% csrf_token %}
+    <input type="submit" value="Create a new article" name="create" />
+</form>
+{% endblock %}

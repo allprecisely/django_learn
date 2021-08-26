@@ -21,6 +21,7 @@ from pages import views as pages_views
 
 urlpatterns = [
     path('products/', include('products.urls')),
+    path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('home/', pages_views.home_view),
 ]

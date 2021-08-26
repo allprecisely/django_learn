@@ -1,0 +1,13 @@
+{% extends 'base_article.html' %}
+
+{% block content %}
+<h1>{{ obj.title }}</h1>
+<h4>{{ obj.body }}</h4>
+<h5>{{ obj.time }}</h5>
+<form method="Post"> {% csrf_token %}
+    <input type="submit" value="Update" name="update" />
+</form>
+<form method="Post"> {% csrf_token %}
+    <input type="submit" value="Delete" name="delete" />
+</form>
+{% endblock %}
