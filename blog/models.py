@@ -9,7 +9,7 @@ class Article(models.Model):
     time = models.TimeField(auto_now=True)
 
     def get_absolute_url(self):
-        return reverse('blog:show_article', kwargs={'_id': self.id})
+        return reverse('blog:article-detail', kwargs={'pk': self.id})
 
     @property
     def summary(self):

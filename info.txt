@@ -1,0 +1,19 @@
+django.views.generic.DetailView - вьюха для получения объектов
+в шаблоне прорастает object с методами класса
+в url используется pk
+можно переопределить метода get_object, при этом id можно забирать из self.kwargs, и при этом возвращать объект метода.
+    При этом queryset становится не нужен
+
+.CreateView - для создания объекта
+требуется атр template_name, атр form_class, метод get_absolute_url в <model> (если не, то можно указать атр success_url = '/' или
+    метод get_success: return '/'
+созданный объект мы может подглядеть в методе form_valid(self, form): print(form.cleaned_data); return super().form_valid(form)
+
+
+
+orm
+<model>.objects.all() - получение всех объектов из базы.
+.objects.filter(id__gt=1) - фильтр
+.objects.get(id=1) <=> get_object_or_404(<class>, id=1) - получение одной записи
+got_item.__dict__ - распаковывает объект в словарь, который можно передать в контексте
+

@@ -1,0 +1,8 @@
+{% extends 'base_article.html' %}
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+<h4>{{ object.body }}</h4>
+<h5>{{ object.time }}</h5>
+<a href="update/">Update</a>  <a href="delete/">Delete</a>
+{% endblock %}
