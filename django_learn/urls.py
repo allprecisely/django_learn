@@ -20,8 +20,9 @@ from django.urls import path
 from pages import views as pages_views
 
 urlpatterns = [
-    path('products/', include('products.urls')),
-    path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
+    path('blog/', include('blog.urls')),
+    path('courses/', include('courses.urls')),
     path('home/', pages_views.home_view),
+    path('products/', include('products.urls')),
 ]
