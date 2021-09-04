@@ -1,0 +1,69 @@
+1) manage.py → execute_from_command_line
+2) django.core.management.__init__:ManagementUtility.execute → .commands.runserver:Command.run
+3) .commands.runserver:Command.inner_run → django.core.servers.basehttp:run
+3.1) :get_handler → core.servers.basehttp:get_internal_wsgi_application
+3.2) wsgi:application → django.core.wsgi:get_wsgi_application
+3.3) c django.core.handlers.wsgi:WSGIHandler(BaseHandler)
+3.3.1) d __call__(environ, start_response)
+3.3.1.1) self.request_class = WSGIRequest
+3.3.1.2) request = self.request_class(environ) – красиво оборачивается сырой запрос
+3.3.1.3) response = self.get_response(request)
+3.3.1.4) d get_response(self, request):
+
+4) httpd = WSGIServer(handler=WSGIRequestHandler)
+4.1.1) django.core.servers.basehttp:c WSGIServer(simple_server.WSGIServer)
+4.1.2) wsgiref.simple_server:c WSGIServer(HTTPServer)
+4.1.2.1) d setup_environ
+4.1.2.2) application = …
+4.1.3) http.server:c HTTPServer(socketserver.TCPServer)
+4.1.4) socketserver:c TCPServer(BaseServer)
+4.1.4.1) d __init__(..hadler..):super.__init__(..handler..), self.socket=socket.socket, self.server_bind(), self.server_activate()
+4.1.4.2) d server_activate: self.socket.listen()
+4.1.4.3) d get_request: self.socket.accept()
+4.1.5) socketserver:c BaseServer
+4.1.5.1) d __init__(..RequestHandlerClass..): self.RequestHandlerClass = RequestHandlerClass
+4.1.5.2) d serve_forever: self._handle_request_noblock(), self.service_actions() - пусто
+4.1.5.3) d handle_request: return self._handle_request_noblock()
+4.1.5.4) d _handle_request_noblock: request, client_address = self.get_request() → self.process_request(request, client_address)
+4.1.5.5) d process_request(self, request, client_address): self.finish_request(request, client_address)
+4.1.5.6) d finish_request(self, request, client_address): self.RequestHandlerClass(request, client_address, self)
+
+4.2.1) django.core.servers.basehttp:c WSGIRequestHandler(simple_server.WSGIRequestHandler):
+4.2.1.1) d get_environ: …, super().get_environ()
+4.2.1.2) d handle: self.handle_one_request()
+4.2.1.3) d handle_one_request:  
+4.2.1.3.1) self.raw_requestline = self.rfile.readline(65537)
+4.2.1.3.2) self.parse_request()
+4.2.1.3.3) handler = ServerHandler(self.rfile, self.wfile, self.get_stderr(), self.get_environ())
+4.2.1.3.3.1) django.core.servers.basehttp:c ServerHandler(simple_server.ServerHandler)
+4.2.1.3.3.2) wsgiref.simple_server:c ServerHandler(SimpleHandler)
+4.2.1.3.3.2) wsgiref.handlers:c  SimpleHandler(BaseHandler)
+4.2.1.3.3.3) wsgiref.handlers:c  BaseHandler
+4.2.1.3.3.3.1) d run(application):
+4.2.1.3.3.3.1.1) self.setup_environ() → к текущ энву прифигачивает реквест и т.п.
+4.2.1.3.3.3.1.2) self.result = application(self.environ, self.start_response)
+4.2.1.3.3.3.1.3) self.finish_response() → тут идет просто запись ответа
+4.2.1.3.3.3.2) d start_response: тут всякие проверки, и возврат self.write
+4.2.1.3.4) handler.request_handler = self
+4.2.1.3.5) handler.run(self.server.get_app())
+4.2.2) wsgiref.simple_server:c WSGIRequestHandler(BaseHTTPRequestHandler)
+4.2.2.1) d get_environ: …
+4.2.2.2) d handle: 4.2.1.3.1 … 4.2.1.3.5
+4.2.3) http.server:c BaseHTTPRequestHandler(socketserver.StreamRequestHandler)
+4.2.3.1) d parse_request…
+4.2.3.2) d handle → d handle_one_request…, send_response, send_response_only, send_header
+4.2.4) socketserver:c StreamRequestHandler(BaseRequestHandler)
+4.2.4.1) d setup:… self.rfile, self.wfile
+4.2.5)  socketserver:c BaseRequestHandler
+4.2.5.1) d __init__(request, client_address, server):
+4.2.5.2) self.request = request
+4.2.5.3) self.server = server
+4.2.5.4) self.setup()
+4.2.5.4) self.handle()
+
+5) httpd.application =  WSGIHandler(из 3.3) и получается (из 4.1.2.2)
+
+6) httpd.serve_forever()
+6.1) 4.1.5.2 → 4.1.5.4 → 4.1.4.3 → 4.1.5.4 → 4.1.5.5 → 4.1.5.6
+6.2) 4.2.5.1 → 4.2.5.2 → 4.2.5.3 → 4.2.5.4 → 4.2.4.1 → 4.2.5.4 → 4.2.1.2 → 4.2.1.3 → 4.2.1.3.1 → 4.2.1.3.3
+6.3) 4.2.1.3.3.3.1.1 → 4.2.1.3.3.3.1.2 → 3.3 ...

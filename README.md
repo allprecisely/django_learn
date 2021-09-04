@@ -2,8 +2,13 @@ Learning Django with https://www.youtube.com/watch?v=F5mRW0jo-U4
 
 Learn later:  
 where from user in request, what is request  
+- в кратце: request это набор текста, который распарсивается - WSGIRequest (django.core.handlers.wsgi)  
+- дальше этот request передается в нужную вьюху, но предварительно вьюха оборачивается в мидлвари - WSGIHandler  
+- и таким образом реквест попадает во вьюху; причем с нужными аргументами из ResolverMatch
 how are routes connected?  
+- джанго забирает urlpatterns и составляет список вьюх
 what are forms, and how are they connected
+- ?
 
 Stopped at 2:14:10 raw html form  
 Can I create url from template without hardcode? - yes:)  
