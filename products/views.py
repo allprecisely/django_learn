@@ -18,7 +18,10 @@ def product_create(request):
 
 def products_detail_view(request):
     objs = Product.objects.all()
-    context = {'objects': objs}
+    context = {'objects': objs, 'additional_time': request.additional_time}
+    print(f'dir(request): {dir(request)}')
+    # print(f'COOKIES: {request.COOKIES}')
+    # print(f'META: {request.META}')
     return render(request, 'products/details.html', context)
 
 
