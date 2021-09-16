@@ -25,6 +25,10 @@ SECRET_KEY = 'django-insecure-b5h3sm30=31$sjezwub_mzt!nq9o*rjyl383y2_mu(6#ujag1*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ABSOLUTE_URL_OVERRIDES = {
+    'board.rubric': lambda rec: f"/board/rubric/{rec.pk}",
+}
+
 ALLOWED_HOSTS = []
 
 
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'board',
     'courses',
     'pages',
     'products',

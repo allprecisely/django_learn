@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Board</title>
+</head>
+
+<body>
+    <a href="{% url 'board:board_list' %}">BoardList</a>
+    <a href="{% url 'board:rubric_list' %}">RubricList</a>
+    {% block content %}
+    replace me
+    {% endblock %}
+</body>
+
+</html>

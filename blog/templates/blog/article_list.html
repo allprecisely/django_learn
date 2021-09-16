@@ -8,5 +8,5 @@
 <h5>{{ obj.time }}</h5>
 {% if not forloop.last %}=============={% endif %}
 {% endfor %}
-<a href="create/">Create</a>
+<a href="{% url 'blog:article-create' %}">Create</a>
 {% endblock %}

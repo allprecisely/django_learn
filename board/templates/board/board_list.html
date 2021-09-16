@@ -1,0 +1,13 @@
+{% extends 'board_base.html' %}
+
+{% block content %}
+
+<h1>This page is about ads:</h1>
+{% for obj in object_list %}
+<h2><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h2>
+<p>{{ obj.description }}</p>
+<p>{{ obj.updated }}</p>
+<p>{{ obj.get_kind_display }}</p>
+{% endfor %}
+
+{% endblock %}

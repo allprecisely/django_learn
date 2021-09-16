@@ -22,6 +22,7 @@ from pages import views as pages_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
+    path('board/', include('board.urls')),
     path('courses/', include('courses.urls')),
     path('home/', pages_views.home_view),
     path('products/', include('products.urls')),

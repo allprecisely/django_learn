@@ -4,5 +4,6 @@
 <h1>{{ object.title }}</h1>
 <h4>{{ object.body }}</h4>
 <h5>{{ object.time }}</h5>
-<a href="update/">Update</a>  <a href="delete/">Delete</a>
+<a href="{% url 'blog:article-update' object.id %}">Update</a> <a
+    href="{% url 'blog:article-delete' object.id %}">Delete</a>
 {% endblock %}

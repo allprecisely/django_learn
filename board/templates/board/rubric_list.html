@@ -1,0 +1,10 @@
+{% extends 'board_base.html' %}
+
+{% block content %}
+
+<h1>This page is about rubrics:</h1>
+{% for obj in object_list %}
+<h2><a href="{{ obj.get_absolute_url }}">{{ obj.type }}</a></h2>
+{% endfor %}
+
+{% endblock %}
